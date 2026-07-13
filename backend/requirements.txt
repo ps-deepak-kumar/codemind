@@ -1,0 +1,15 @@
+fastapi>=0.100.0
+uvicorn>=0.22.0
+pydantic-settings>=2.0.0
+GitPython>=3.1.37
+chromadb>=0.4.15
+sqlalchemy>=2.0.0
+pytest>=7.4.0
+httpx>=0.24.1
+tree-sitter>=0.26.0
+tree-sitter-python>=0.25.0
+tree-sitter-javascript>=0.25.0
+tree-sitter-typescript>=0.23.0
+tree-sitter-go>=0.25.0
+tree-sitter-java>=0.23.0
+python-dotenv>=1.0.0

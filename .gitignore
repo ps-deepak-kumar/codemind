@@ -1,0 +1,18 @@
+# Python
+**/venv/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+
+# Node
+**/node_modules/
+**/.next/
+
+# Project local files
+**/codemind.db
+**/chroma_db/
+**/cloned_repos/
+**/.env.local
+**/.env
+**/.env.*
