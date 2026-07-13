@@ -6,7 +6,7 @@ import {
   FolderGit2, ChevronRight,
 } from "lucide-react";
 import {
-  Repository, listRepositories, addRepository, deleteRepository, refreshRepository,
+  Repository, listRepositories, addRepository, deleteRepository, refreshRepository, API_BASE_URL,
 } from "@/lib/api";
 import { cn, getStatusColor, getStatusLabel, timeAgo } from "@/lib/utils";
 
@@ -294,9 +294,10 @@ interface SettingsPanelProps {
 
 function SettingsPanel({ settings, onSettingsChange, onToast }: SettingsPanelProps) {
   const [models, setModels] = useState<string[]>([]);
+  const [apiUrlInput, setApiUrlInput] = useState(API_BASE_URL);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/v1/settings/")
+    fetch(`${API_BASE_URL}/settings/`)
       .then((r) => r.json())
       .then((d) => {
         setModels(d.available_models || []);
@@ -316,6 +317,37 @@ function SettingsPanel({ settings, onSettingsChange, onToast }: SettingsPanelPro
       <div className="sidebar-section" style={{ padding: "0 6px 10px" }}>Configuration</div>
       <div className="settings-panel">
         <div className="settings-group">
+          <label className="settings-label">Backend API URL</label>
+          <div style={{ display: "flex", gap: 6 }}>
+            <input
+              className="form-input"
+              value={apiUrlInput}
+              onChange={(e) => setApiUrlInput(e.target.value)}
+              style={{ fontSize: 12 }}
+              placeholder="e.g. http://localhost:8000/api/v1"
+            />
+            <button
+              onClick={() => {
+                localStorage.setItem("codemind_api_url", apiUrlInput.trim());
+                onToast("Backend URL updated! Reloading...", "success");
+                setTimeout(() => window.location.reload(), 1000);
+              }}
+              style={{
+                padding: "0 10px",
+                background: "rgba(99,102,241,0.20)",
+                border: "1px solid rgba(99,102,241,0.40)",
+                borderRadius: 8,
+                fontSize: 11,
+                color: "#818cf8",
+                cursor: "pointer",
+              }}
+            >
+              Save
+            </button>
+          </div>
+        </div>
+
+        <div className="settings-group">
           <label className="settings-label">LLM Model</label>
           {models.length > 0 ? (
             <select
@@ -327,7 +359,7 @@ function SettingsPanel({ settings, onSettingsChange, onToast }: SettingsPanelPro
             </select>
           ) : (
             <div style={{ fontSize: 11, color: "#475569", padding: "6px 0" }}>
-              Start Ollama to see available models
+              Start Ollama or check Backend URL to see models
             </div>
           )}
         </div>

@@ -1,4 +1,13 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+export let API_BASE_URL = "http://localhost:8000/api/v1";
+
+if (typeof window !== "undefined") {
+  const customUrl = localStorage.getItem("codemind_api_url");
+  if (customUrl) {
+    API_BASE_URL = customUrl;
+  } else if (process.env.NEXT_PUBLIC_API_URL) {
+    API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+  }
+}
 
 export interface Repository {
   id: number;
